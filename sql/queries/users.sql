@@ -5,13 +5,20 @@ VALUES(
         gen_random_uuid(),
         NOW(),
         NOW(),
-        $1, 
+        $1,
         $2
 )
 RETURNING *;
 
 
 -- name: GetUserByEmail :one
-SELECT * FROM users
+SELECT *
+FROM users
 WHERE $1 = email;
 
+
+-- name: UpdateUser :one
+UPDATE users
+SET email = $2, hashed_password = $3, updated_at = NOW()
+WHERE id = $1
+RETURNING *;
